@@ -70,7 +70,10 @@ function Landing() {
   const [signedIn, setSignedIn] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSignedIn(Boolean(data.session)));
+    supabase.auth
+      .getSession()
+      .then(({ data }) => setSignedIn(Boolean(data.session)))
+      .catch((error) => console.error("Supabase session is unavailable:", error));
   }, []);
 
   const primaryTo = signedIn ? "/dashboard" : "/auth";

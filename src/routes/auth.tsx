@@ -31,9 +31,12 @@ function AuthPage() {
   const [sent, setSent] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/dashboard", replace: true });
-    });
+    supabase.auth
+      .getSession()
+      .then(({ data }) => {
+        if (data.session) navigate({ to: "/dashboard", replace: true });
+      })
+      .catch((error) => console.error("Supabase session is unavailable:", error));
   }, [navigate]);
 
   async function handleSubmit(e: React.FormEvent) {
