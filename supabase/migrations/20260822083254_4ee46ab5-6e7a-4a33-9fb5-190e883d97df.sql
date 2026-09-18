@@ -1,0 +1,1 @@
+delete from public.documents where user_id = '6b813cac-7b79-4a7b-9b12-dec35e988468';
