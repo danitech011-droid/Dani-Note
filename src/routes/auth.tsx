@@ -30,6 +30,12 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
+  function getAuthRedirectUrl() {
+    const configuredUrl = import.meta.env.VITE_APP_URL?.trim();
+    const baseUrl = configuredUrl || window.location.origin;
+    return `${baseUrl.replace(/\/$/, "")}/auth`;
+  }
+
   useEffect(() => {
     supabase.auth
       .getSession()
@@ -44,7 +50,7 @@ function AuthPage() {
     setLoading(true);
     try {
       if (mode === "signup") {
-        const redirectUrl = `${window.location.origin}/auth`;
+        const redirectUrl = getAuthRedirectUrl();
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
@@ -75,7 +81,7 @@ function AuthPage() {
 
   async function handleGoogle() {
     setLoading(true);
-    const redirectUrl = `${window.location.origin}/auth`;
+    const redirectUrl = getAuthRedirectUrl();
     const result = await lovable.auth.signInWithOAuth("google", {
       redirect_uri: redirectUrl,
     });
