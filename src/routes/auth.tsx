@@ -44,11 +44,12 @@ function AuthPage() {
     setLoading(true);
     try {
       if (mode === "signup") {
+        const redirectUrl = `${window.location.origin}/auth`;
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: window.location.origin,
+            emailRedirectTo: redirectUrl,
             data: { display_name: name || email.split("@")[0] },
           },
         });
@@ -74,8 +75,9 @@ function AuthPage() {
 
   async function handleGoogle() {
     setLoading(true);
+    const redirectUrl = `${window.location.origin}/auth`;
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+      redirect_uri: redirectUrl,
     });
     if (result.error) {
       setLoading(false);
